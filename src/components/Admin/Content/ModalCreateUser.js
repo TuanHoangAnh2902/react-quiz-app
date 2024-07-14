@@ -4,7 +4,8 @@ import { RiImageAddFill } from 'react-icons/ri';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import axios from 'axios';
+
+import { postCreateNewUser } from '~/services/apiService';
 
 function ModalCreateUser(props) {
 	const { show, setShow } = props;
@@ -47,23 +48,14 @@ function ModalCreateUser(props) {
 			return;
 		}
 
-		//submit data
-		const data = new FormData();
-		data.append('email', email);
-		data.append('username', username);
-		data.append('password', password);
-		data.append('role', role);
-		data.append('userImage', image);
+		let data = await postCreateNewUser(email, username, password, role, image);
 
-		//call api
-		let res = await axios.post('http://localhost:8081/api/v1/participant', data);
-
-		if (res.data && res.data.EC === 0) {
-			toast.success(res.data.EM);
+		if (data && data.EC === 0) {
+			toast.success(data.EM);
 			handleClose();
 		}
-		if (res.data && res.data.EC !== 0) {
-			toast.error(res.data.EM);
+		if (data && data.EC !== 0) {
+			toast.error(data.EM);
 		}
 	};
 
