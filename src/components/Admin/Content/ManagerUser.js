@@ -6,11 +6,13 @@ import Button from 'react-bootstrap/Button';
 import ModalCreateUser from './ModalCreateUser';
 import './ManageUser.scss';
 import TableUser from './TableUser';
+import ModalUpdateUser from './ModalUpdateUser';
 
 function ManagerUser(props) {
 	const [listUsers, setListUsers] = useState([]);
-
 	const [showModalCreateUser, setShowModalCreateUser] = useState(false);
+	const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+	const [dataUpdate, setDataUpdate] = useState({});
 
 	useEffect(() => {
 		fetchListUsers();
@@ -22,6 +24,12 @@ function ManagerUser(props) {
 			setListUsers(res.DT);
 		}
 	};
+
+	const handleClickBtnUpdate = (user) => {
+		setShowModalUpdateUser(true);
+		setDataUpdate(user);
+	};
+
 	return (
 		<div className='manage-user-container'>
 			<div className='title'>Manage User</div>
@@ -36,12 +44,20 @@ function ManagerUser(props) {
 					</Button>
 				</div>
 				<div className='table-user-container'>
-					<TableUser listUsers={listUsers} />
+					<TableUser
+						handleClickBtnUpdate={handleClickBtnUpdate}
+						listUsers={listUsers}
+					/>
 				</div>
 				<ModalCreateUser
 					show={showModalCreateUser}
 					setShow={setShowModalCreateUser}
 					fetchListUsers={fetchListUsers}
+				/>
+				<ModalUpdateUser
+					show={showModalUpdateUser}
+					setShow={setShowModalUpdateUser}
+					dataUpdate={dataUpdate}
 				/>
 			</div>
 		</div>
