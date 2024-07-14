@@ -1,0 +1,22 @@
+.btn-login {
+	margin-right: 10px;
+	border: none;
+	background-color: transparent;
+	height: 40px;
+
+	&:hover {
+		opacity: 0.8;
+	}
+}
+.btn-signup {
+	height: 40px;
+	border-radius: 12px;
+	padding: 0 18px;
+	border: none;
+	background-color: #191919;
+	color: #fff;
+    
+	&:hover {
+		opacity: 0.8;
+	}
+}
