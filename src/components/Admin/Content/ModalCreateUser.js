@@ -1,11 +1,22 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { RiImageAddFill } from 'react-icons/ri';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 
 function ModalCreateUser(props) {
 	const { show, setShow } = props;
-	const handleClose = () => setShow(false);
+	const handleClose = () => {
+		setShow(false);
+		setEmail('');
+		setUsername('');
+		setPassword('');
+		setImage('');
+		setPreviewImage('');
+		setRole('USER');
+	};
 
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
@@ -14,7 +25,6 @@ function ModalCreateUser(props) {
 	const [previewImage, setPreviewImage] = useState('');
 	const [role, setRole] = useState('USER');
 
-	
 	const validateEmail = (email) => {
 		return String(email)
 			.toLowerCase()
@@ -22,6 +32,41 @@ function ModalCreateUser(props) {
 				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 			);
 	};
+
+	const handleSubmitCreateUser = async () => {
+		const isValidateEmail = validateEmail(email);
+
+		if (!isValidateEmail) {
+			toast.error('Email is invalid');
+			return;
+		} else if (!password) {
+			toast.error('Password is required');
+			return;
+		} else if (!username) {
+			toast.error('Username is required');
+			return;
+		}
+
+		//submit data
+		const data = new FormData();
+		data.append('email', email);
+		data.append('username', username);
+		data.append('password', password);
+		data.append('role', role);
+		data.append('userImage', image);
+
+		//call api
+		let res = await axios.post('http://localhost:8081/api/v1/participant', data);
+
+		if (res.data && res.data.EC === 0) {
+			toast.success(res.data.EM);
+			handleClose();
+		}
+		if (res.data && res.data.EC !== 0) {
+			toast.error(res.data.EM);
+		}
+	};
+
 	const handleUpdateEvent = (e) => {
 		if (e.target && e.target.files && e.target.files[0]) {
 			const file = e.target.files[0];
@@ -114,7 +159,7 @@ function ModalCreateUser(props) {
 					</Button>
 					<Button
 						variant='primary'
-						onClick={handleClose}>
+						onClick={handleSubmitCreateUser}>
 						Save
 					</Button>
 				</Modal.Footer>

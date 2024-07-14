@@ -1,3 +1,4 @@
+
 import { HiUserAdd } from 'react-icons/hi';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
@@ -25,6 +26,7 @@ function ManagerUser(props) {
 					setShow={setShowModalCreateUser}
 				/>
 			</div>
+			
 		</div>
 	);
 }
