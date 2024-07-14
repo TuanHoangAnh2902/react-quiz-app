@@ -1,10 +1,10 @@
-
 import { HiUserAdd } from 'react-icons/hi';
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
-import ModalCreateUser from './ModalCreateUser';
 
+import ModalCreateUser from './ModalCreateUser';
 import './ManageUser.scss';
+import TableUser from './TableUser';
 
 function ManagerUser(props) {
 	const [showModalCreateUser, setShowModalCreateUser] = useState(false);
@@ -20,13 +20,14 @@ function ManagerUser(props) {
 						Add new user
 					</Button>
 				</div>
-				<div>table user</div>
+				<div className='table-user-container'>
+					<TableUser />
+				</div>
 				<ModalCreateUser
 					show={showModalCreateUser}
 					setShow={setShowModalCreateUser}
 				/>
 			</div>
-			
 		</div>
 	);
 }
