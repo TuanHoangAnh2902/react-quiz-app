@@ -44,7 +44,6 @@ function ManagerUser(props) {
 	};
 
 	const handleCLickDeleteUser = (user) => {
-		console.log(user);
 		setShowModalDeleteUser(true);
 		setDataDelete(user);
 	};
@@ -90,6 +89,7 @@ function ManagerUser(props) {
 				<ModalDeleteUser
 					show={showModalDeleteUser}
 					setShow={setShowModalDeleteUser}
+					fetchListUsers={fetchListUsers}
 					dataDelete={dataDelete}
 				/>
 			</div>
