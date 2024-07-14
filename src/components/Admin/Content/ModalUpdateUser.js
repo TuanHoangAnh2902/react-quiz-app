@@ -4,12 +4,12 @@ import { RiImageAddFill } from 'react-icons/ri';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import _, { set } from 'lodash';
+import _ from 'lodash';
 
-import { postCreateNewUser } from '~/services/apiService';
+import { putUpdateUser } from '~/services/apiService';
 
 function ModalUpdateUser(props) {
-	const { show, setShow, fetchListUsers, dataUpdate } = props;
+	const { show, setShow, fetchListUsers, dataUpdate, resetupdateData } = props;
 	const handleClose = () => {
 		setShow(false);
 		setEmail('');
@@ -18,6 +18,7 @@ function ModalUpdateUser(props) {
 		setImage('');
 		setPreviewImage('');
 		setRole('USER');
+		resetupdateData();
 	};
 
 	const [email, setEmail] = useState('');
@@ -53,16 +54,9 @@ function ModalUpdateUser(props) {
 		if (!isValidateEmail) {
 			toast.error('Email is invalid');
 			return;
-		} else if (!password) {
-			toast.error('Password is required');
-			return;
-		} else if (!username) {
-			toast.error('Username is required');
-			return;
 		}
 
-		let data = await postCreateNewUser(email, username, password, role, image);
-
+		let data = await putUpdateUser(dataUpdate.id, username, role, image);
 		if (data && data.EC === 0) {
 			toast.success(data.EM);
 			handleClose();
