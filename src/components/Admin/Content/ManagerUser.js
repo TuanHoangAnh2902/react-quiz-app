@@ -3,16 +3,21 @@ import { getAllUsers } from '~/services/apiService';
 import { HiUserAdd } from 'react-icons/hi';
 import Button from 'react-bootstrap/Button';
 
-import ModalCreateUser from './ModalCreateUser';
 import './ManageUser.scss';
 import TableUser from './TableUser';
+import ModalCreateUser from './ModalCreateUser';
 import ModalUpdateUser from './ModalUpdateUser';
+import ModalViewUser from './ModalViewUser';
+import ModalDeleteUser from './ModalDeleteUser';
 
 function ManagerUser(props) {
 	const [listUsers, setListUsers] = useState([]);
 	const [showModalCreateUser, setShowModalCreateUser] = useState(false);
 	const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+	const [showModalViewUser, setShowModalViewUser] = useState(false);
 	const [dataUpdate, setDataUpdate] = useState({});
+	const [dataDelete, setDataDelete] = useState({});
+	const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
 
 	useEffect(() => {
 		fetchListUsers();
@@ -29,11 +34,20 @@ function ManagerUser(props) {
 		setShowModalUpdateUser(true);
 		setDataUpdate(user);
 	};
+	const handleClickBtnView = (user) => {
+		setShowModalViewUser(true);
+		setDataUpdate(user);
+	};
 
 	const resetupdateData = () => {
 		setDataUpdate({});
 	};
 
+	const handleCLickDeleteUser = (user) => {
+		console.log(user);
+		setShowModalDeleteUser(true);
+		setDataDelete(user);
+	};
 	return (
 		<div className='manage-user-container'>
 			<div className='title'>Manage User</div>
@@ -49,7 +63,9 @@ function ManagerUser(props) {
 				</div>
 				<div className='table-user-container'>
 					<TableUser
+						handleClickBtnView={handleClickBtnView}
 						handleClickBtnUpdate={handleClickBtnUpdate}
+						handleCLickDeleteUser={handleCLickDeleteUser}
 						listUsers={listUsers}
 					/>
 				</div>
@@ -64,6 +80,17 @@ function ManagerUser(props) {
 					dataUpdate={dataUpdate}
 					fetchListUsers={fetchListUsers}
 					resetupdateData={resetupdateData}
+				/>
+				<ModalViewUser
+					show={showModalViewUser}
+					setShow={setShowModalViewUser}
+					dataUpdate={dataUpdate}
+					resetupdateData={resetupdateData}
+				/>
+				<ModalDeleteUser
+					show={showModalDeleteUser}
+					setShow={setShowModalDeleteUser}
+					dataDelete={dataDelete}
 				/>
 			</div>
 		</div>
