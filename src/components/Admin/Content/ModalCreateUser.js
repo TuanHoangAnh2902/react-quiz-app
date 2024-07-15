@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
+import ValidateEmail from '~/components/ValidateEmail/ValidateEmail';
 import { postCreateNewUser } from '~/services/apiService';
 
 function ModalCreateUser(props) {
@@ -26,16 +27,8 @@ function ModalCreateUser(props) {
 	const [previewImage, setPreviewImage] = useState('');
 	const [role, setRole] = useState('USER');
 
-	const validateEmail = (email) => {
-		return String(email)
-			.toLowerCase()
-			.match(
-				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-			);
-	};
-
 	const handleSubmitCreateUser = async () => {
-		const isValidateEmail = validateEmail(email);
+		const isValidateEmail = ValidateEmail(email);
 
 		if (!isValidateEmail) {
 			toast.error('Email is invalid');

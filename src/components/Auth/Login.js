@@ -1,16 +1,35 @@
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+
+import { postLogin } from '~/services/apiService';
+// import ValidateEmail from '~/components/ValidateEmail/ValidateEmail';
 import './Login.scss';
 
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleLogin = () => {};
+	const navigate = useNavigate();
+	const handleLogin = async () => {
+		let data = await postLogin(email, password);
+		if (data && +data.EC === 0) {
+			toast.success(data.EM);
+			navigate('/');
+		}
+		if (data && +data.EC !== 0) {
+			toast.error(data.EM);
+		}
+	};
 
 	return (
 		<>
 			<div className='login-container'>
-				<div className='header'>Don't have an account yet?</div>
+				<div className='header'>
+					<span>Don't have an account yet?</span>
+					<button>Sign up</button>
+					<span className='contact-us'>Contact's us</span>
+				</div>
 				<div className='title col-3 mx-auto'>Mr.Tuan</div>
 				<div className='welcome col-3 mx-auto'>Hello, who's this?</div>
 				<div className='content-form col-3 mx-auto'>
@@ -39,6 +58,15 @@ function Login() {
 							onClick={handleLogin}>
 							Login
 						</button>
+					</div>
+					<div className='text-center'>
+						<span
+							className='back'
+							onClick={() => {
+								navigate('/');
+							}}>
+							&#60;&#60; Go to homepage
+						</span>
 					</div>
 				</div>
 			</div>
