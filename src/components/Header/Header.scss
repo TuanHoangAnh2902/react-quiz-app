@@ -15,8 +15,14 @@
 	border: none;
 	background-color: #191919;
 	color: #fff;
-    
+
 	&:hover {
 		opacity: 0.8;
+	}
+}
+
+.bg-body-tertiary {
+	#basic-nav-dropdown {
+		margin-right: 76px;
 	}
 }
