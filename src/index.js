@@ -8,6 +8,7 @@ import store from './redux/store';
 import GlobalStyles from './components/GlobalStyles';
 import reportWebVitals from './reportWebVitals';
 import Layout from './Layout';
+import 'nprogress/nprogress.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

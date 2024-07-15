@@ -1,73 +1,90 @@
 .login-container {
-	.header {
-		height: 45px;
-		padding: 14px 26px;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		gap: 8px;
+	.loader-icon {
+		margin-right: 2px;
+		top: 2px;
+		animation: spin 1s infinite linear;
+	}
+}
+.header {
+	height: 45px;
+	padding: 14px 26px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
 
-		button {
-			border: 1px solid black;
-			border-radius: 2px;
-			font-size: 12px;
-			line-height: 14px;
-			padding: 6px 12px;
-			color: #262627;
-			background-color: rgb(255, 255, 255);
+	button {
+		border: 1px solid black;
+		border-radius: 2px;
+		font-size: 12px;
+		line-height: 14px;
+		padding: 6px 12px;
+		color: #262627;
+		background-color: rgb(255, 255, 255);
 
-			&:hover {
-				background-color: #f5f5f5;
-			}
-		}
-		span {
-			color: rgb(76, 76, 76);
-			font-size: 14px;
-		}
-		.contact-us {
-			cursor: pointer;
-			color: #262627;
-			font-size: 14px;
-			text-decoration: underline;
+		&:hover {
+			background-color: #f5f5f5;
 		}
 	}
-	.title {
-		font-size: 25px;
-		padding: 20px 0;
-		text-align: center;
+	span {
+		color: rgb(76, 76, 76);
+		font-size: 14px;
 	}
-	.welcome {
-		font-size: 20px;
-		text-align: center;
-		padding: 10px 0;
+	.contact-us {
+		cursor: pointer;
+		color: #262627;
+		font-size: 14px;
+		text-decoration: underline;
 	}
-	.content-form {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-		label {
-			margin-bottom: 6px;
-		}
-		input {
-			margin-top: 2px;
-		}
+}
+.title {
+	font-size: 25px;
+	padding: 20px 0;
+	text-align: center;
+}
+.welcome {
+	font-size: 20px;
+	text-align: center;
+	padding: 10px 0;
+}
+.content-form {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	label {
+		margin-bottom: 6px;
+	}
+	input {
+		margin-top: 2px;
+	}
 
-		button {
-			width: 100%;
-			height: 40px;
-			border: none;
-			margin: 5px 0;
-			color: white;
-			background-color: black;
-			border-radius: 6px;
+	button {
+		width: 100%;
+		height: 40px;
+		border: none;
+		margin: 5px 0;
+		color: white;
+		background-color: black;
+		border-radius: 6px;
+		&:disabled {
+			cursor: no-drop;
+			background-color: rgb(204, 204, 204);
 		}
-		.forgot-password {
-			font-size: 14px;
-			color: rgb(119, 119, 119);
-			text-decoration-line: underline;
-		}
-		.back {
-			cursor: pointer;
-		}
+	}
+	.forgot-password {
+		font-size: 14px;
+		color: rgb(119, 119, 119);
+		text-decoration-line: underline;
+	}
+	.back {
+		cursor: pointer;
+	}
+}
+@keyframes spin {
+	from {
+		transform: scale(1) rotate(0deg);
+	}
+	to {
+		transform: scale(1) rotate(360deg);
 	}
 }
