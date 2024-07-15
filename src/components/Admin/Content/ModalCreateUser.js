@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import { postCreateNewUser } from '~/services/apiService';
 
 function ModalCreateUser(props) {
-	const { show, setShow, fetchListUsers } = props;
+	const { show, setShow, fetchListUserWidthPaginate, currentPage, setCurrentPage } = props;
 	const handleClose = () => {
 		setShow(false);
 		setEmail('');
@@ -52,7 +52,8 @@ function ModalCreateUser(props) {
 		if (data && data.EC === 0) {
 			toast.success(data.EM);
 			handleClose();
-			await fetchListUsers();
+			setCurrentPage(1);
+			await fetchListUserWidthPaginate(currentPage);
 		}
 		if (data && data.EC !== 0) {
 			toast.error(data.EM);
@@ -77,7 +78,7 @@ function ModalCreateUser(props) {
 				size='xl'
 				backdrop='static'>
 				<Modal.Header closeButton>
-					<Modal.Title>add new user</Modal.Title>
+					<Modal.Title>Add new user</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<form className='row g-3'>

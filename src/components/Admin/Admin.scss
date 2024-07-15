@@ -12,8 +12,12 @@ $highlight-color: #dee2ec;
 		.admin-header {
 			height: 40px;
 		}
-		// .admin-main {
-		// }
+		.admin-main {
+			.user-pagination {
+				display: flex;
+				justify-content: center;
+			}
+		}
 	}
 }
 .sidebar-btn-wrapper {
