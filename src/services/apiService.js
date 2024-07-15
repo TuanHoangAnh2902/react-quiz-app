@@ -35,4 +35,8 @@ const getUserWidthPaginate = (page, limit) => {
 const postLogin = (email, password) => {
 	return axios.post(`api/v1/login`, { email, password });
 };
-export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUserWidthPaginate, postLogin };
+
+const postRegister = (email, userName, password) => {
+	return axios.post(`api/v1/register`, { email, userName, password });
+};
+export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUserWidthPaginate, postLogin, postRegister };

@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import _ from 'lodash';
 
+import ValidateEmail from '~/components/ValidateEmail/ValidateEmail'; 
 import { putUpdateUser } from '~/services/apiService';
 
 function ModalUpdateUser(props) {
@@ -40,16 +41,8 @@ function ModalUpdateUser(props) {
 		}
 	}, [dataUpdate]);
 
-	const validateEmail = (email) => {
-		return String(email)
-			.toLowerCase()
-			.match(
-				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-			);
-	};
-
 	const handleSubmitCreateUser = async () => {
-		const isValidateEmail = validateEmail(email);
+		const isValidateEmail = ValidateEmail(email);
 
 		if (!isValidateEmail) {
 			toast.error('Email is invalid');

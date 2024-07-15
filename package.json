@@ -49,6 +49,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1",
+    "react-image-webp": "^0.8.0",
     "sass": "^1.77.7"
   }
 }

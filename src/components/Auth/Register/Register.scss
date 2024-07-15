@@ -1,0 +1,54 @@
+.register-container {
+	background-color: black;
+	height: 100vh;
+	display: flex;
+	.background-side {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 30px;
+		height: 100%;
+		width: 100%;
+		background-color: rgb(25, 25, 25);
+
+		h2 {
+			text-align: center;
+			width: 300px;
+			color: white;
+			font-size: 36px;
+			line-height: 44px;
+		}
+		picture {
+			overflow-clip-margin: content-box;
+		}
+	}
+	.register-side {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		min-width: 848px;
+		background-color: rgb(255, 255, 255);
+		border-top-left-radius: 16px;
+		border-bottom-left-radius: 16px;
+
+		.sub-title {
+			font-size: 24px;
+			font-weight: 200;
+			line-height: 36px;
+			width: 60%;
+			text-align: center;
+		}
+		.register-form {
+			.register-btn {
+				border-radius: 8px;
+				padding: 10px 0;
+				width: 100%;
+				color: white;
+				background-color: rgb(25, 25, 25);
+			}
+		}
+	}
+}

@@ -27,7 +27,12 @@ function Login() {
 			<div className='login-container'>
 				<div className='header'>
 					<span>Don't have an account yet?</span>
-					<button>Sign up</button>
+					<button
+						onClick={() => {
+							navigate('/register');
+						}}>
+						Sign up
+					</button>
 					<span className='contact-us'>Contact's us</span>
 				</div>
 				<div className='title col-3 mx-auto'>Mr.Tuan</div>

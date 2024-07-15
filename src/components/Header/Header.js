@@ -17,7 +17,6 @@ const Header = () => {
 			expand='lg'
 			className='bg-body-tertiary'>
 			<Container>
-				{/* <Navbar.Brand href='/'>Hoàng Ngọc Anh Tuấn</Navbar.Brand> */}
 				<NavLink
 					className='navbar-brand'
 					to='/'>
@@ -48,16 +47,14 @@ const Header = () => {
 							onClick={() => handleLogin()}>
 							log in
 						</button>
-						<button className='btn-signup'>Sign up</button>
-						{/* <NavDropdown
-							title='Setting'
-							id='basic-nav-dropdown'>
-							<NavDropdown.Item>Log in</NavDropdown.Item>
-							<NavDropdown.Item>Log out</NavDropdown.Item>
-							<NavDropdown.Item>Profile</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item>Separated link</NavDropdown.Item>
-						</NavDropdown> */}
+						<button
+							className='btn-signup'
+							onClick={() => {
+								navigate('/register');
+							}}>
+							Sign up
+						</button>
+					
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
