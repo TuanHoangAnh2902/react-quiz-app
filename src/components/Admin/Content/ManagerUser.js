@@ -37,7 +37,6 @@ function ManagerUser() {
 	const fetchListUserWidthPaginate = async (page) => {
 		let res = await getUserWidthPaginate(page, LIMIT_USER);
 		if (res.EC === 0) {
-			console.log(res.DT);
 			setListUsers(res.DT.users);
 			setPageCount(res.DT.totalPages);
 		}

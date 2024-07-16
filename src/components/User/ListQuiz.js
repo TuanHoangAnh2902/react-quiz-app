@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getQuizByUser } from '~/services/apiService';
 
 import './ListQuiz.scss';
+import { useNavigate } from 'react-router-dom';
 function ListQuiz() {
 	const [arrQuiz, setArrQuiz] = useState([]);
 
@@ -13,9 +14,10 @@ function ListQuiz() {
 		const res = await getQuizByUser();
 		if (res && res.EC === 0) {
 			setArrQuiz(res.DT);
-			console.log(res);
 		}
 	};
+
+	const nagivate = useNavigate();
 	return (
 		<div className='list-quiz-container container'>
 			{arrQuiz &&
@@ -35,6 +37,7 @@ function ListQuiz() {
 								<h5 className='card-title'>Quiz {index + 1}</h5>
 								<p className='card-text'>{quiz.description}</p>
 								<button
+									onClick={() => nagivate(`/quiz/${quiz.id}`)}
 									href='#'
 									className='btn btn-primary'>
 									Start Now

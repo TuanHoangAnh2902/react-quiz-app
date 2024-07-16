@@ -11,8 +11,16 @@ import Register from './components/Auth/Register/Register';
 import ManagerUser from './components/Admin/Content/ManagerUser';
 import Dashboard from './components/Admin/Content/Dashboard';
 import ListQuiz from './components/User/ListQuiz';
+import DetailQuiz from './components/User/DetailQuiz';
 
 function Layout() {
+	const NotFound = () => {
+		return (
+			<div className='alert alert-danger container mt-3'>
+				404.Not Found data width your current URL
+			</div>
+		);
+	};
 	return (
 		<>
 			<Routes>
@@ -28,6 +36,12 @@ function Layout() {
 						element={<ListQuiz />}
 					/>
 				</Route>
+
+				<Route
+					path='quiz/:id'
+					element={<DetailQuiz />}
+				/>
+
 				<Route
 					path='admins'
 					element={<Admin />}>
@@ -47,6 +61,10 @@ function Layout() {
 				<Route
 					path='register'
 					element={<Register />}
+				/>
+				<Route
+					path='*'
+					element={<NotFound />}
 				/>
 			</Routes>
 			<ToastContainer
