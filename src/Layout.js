@@ -3,13 +3,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import App from '~/App';
-import User from './components/User/User';
+// import User from './components/User/User';
 import Admin from './components/Admin/Admin';
 import Login from './components/Auth/Login/Login';
 import HomePage from './components/Home/HomePage';
 import Register from './components/Auth/Register/Register';
 import ManagerUser from './components/Admin/Content/ManagerUser';
 import Dashboard from './components/Admin/Content/Dashboard';
+import ListQuiz from './components/User/ListQuiz';
 
 function Layout() {
 	return (
@@ -24,7 +25,7 @@ function Layout() {
 					/>
 					<Route
 						path='users'
-						element={<User />}
+						element={<ListQuiz />}
 					/>
 				</Route>
 				<Route
