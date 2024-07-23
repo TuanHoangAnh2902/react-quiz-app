@@ -12,6 +12,7 @@ import ManagerUser from './components/Admin/Content/ManagerUser';
 import Dashboard from './components/Admin/Content/Dashboard';
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
+import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz';
 
 function Layout() {
 	const NotFound = () => {
@@ -52,6 +53,10 @@ function Layout() {
 					<Route
 						path='manage-user'
 						element={<ManagerUser />}
+					/>
+					<Route
+						path='manage-quizzes'
+						element={<ManageQuiz />}
 					/>
 				</Route>
 				<Route

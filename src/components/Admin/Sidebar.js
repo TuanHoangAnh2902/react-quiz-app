@@ -1,12 +1,21 @@
 import 'react-pro-sidebar/dist/css/styles.css';
-import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
+import {
+	ProSidebar,
+	Menu,
+	MenuItem,
+	SubMenu,
+	SidebarHeader,
+	SidebarFooter,
+	SidebarContent,
+} from 'react-pro-sidebar';
 import { FaGem, FaGithub, FaReact } from 'react-icons/fa';
 import { MdOutlineDashboardCustomize } from 'react-icons/md';
 
 import sidebarBg from '~/assets/img/bg2.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Sidebar({ collapsed, toggled, handleToggleSidebar }) {
+	const navigate = useNavigate();
 	return (
 		<>
 			<ProSidebar
@@ -32,7 +41,7 @@ function Sidebar({ collapsed, toggled, handleToggleSidebar }) {
 							size={'2.5em'}
 							color={'00bfff'}
 						/>
-						<span>Mr.Tuan</span>
+						<span onClick={() => navigate('/')}>Mr.Tuan</span>
 					</div>
 				</SidebarHeader>
 
@@ -54,7 +63,10 @@ function Sidebar({ collapsed, toggled, handleToggleSidebar }) {
 								Quản lý Users
 								<Link to='/admins/manage-user' />
 							</MenuItem>
-							<MenuItem>Quản lý bài Quiz</MenuItem>
+							<MenuItem>
+								Quản lý bài Quiz
+								<Link to='/admins/manage-quizzes' />
+							</MenuItem>
 							<MenuItem>Quản lý câu hỏi</MenuItem>
 						</SubMenu>
 					</Menu>
@@ -72,7 +84,9 @@ function Sidebar({ collapsed, toggled, handleToggleSidebar }) {
 							className='sidebar-btn'
 							rel='noopener noreferrer'>
 							<FaGithub />
-							<span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>viewSource</span>
+							<span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+								viewSource
+							</span>
 						</a>
 					</div>
 				</SidebarFooter>

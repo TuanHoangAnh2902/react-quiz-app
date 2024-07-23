@@ -15,7 +15,10 @@
 body {
 	font-family: apercu-pro, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
 }
-
+a {
+	text-decoration: none;
+	color: inherit;
+}
 .app-container {
 	.header-container {
 		.navbar {
