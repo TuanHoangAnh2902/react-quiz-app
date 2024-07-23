@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import _, { forEach } from 'lodash';
+import _ from 'lodash';
 
 import './detailQuiz.scss';
-import { getDataQuiz } from '~/services/apiService';
+import { getDataQuiz, postSubmitQuiz } from '~/services/apiService';
 import Question from './Question.js/Question';
+import ModalResult from './ModalResult';
 function DetailQuiz() {
 	const params = useParams();
 	const location = useLocation();
@@ -13,6 +14,8 @@ function DetailQuiz() {
 
 	const [dataQuiz, setDataQuiz] = useState([]);
 	const [currentQuestion, setCurrentQuestion] = useState(0);
+	const [isShowModalResult, setIsShowModalResult] = useState(false);
+	const [dataModalResult, setDataModalResult] = useState({});
 
 	useEffect(() => {
 		fetchQuestions();
@@ -77,7 +80,7 @@ function DetailQuiz() {
 		}
 	};
 
-	const handleFinishQuiz = () => {
+	const handleFinishQuiz = async () => {
 		// 	{
 		// 		"quizId": 1,
 		// 		"answers": [
@@ -102,6 +105,7 @@ function DetailQuiz() {
 				let questionId = question.questionId;
 				let userAnswerId = [];
 
+				// lấy ra các answer đã chọn
 				question.answers.forEach((answer) => {
 					if (answer.isSelected) {
 						userAnswerId.push(answer.id);
@@ -110,7 +114,18 @@ function DetailQuiz() {
 				answers.push({ questionId: +questionId, userAnswerId });
 			});
 			payload.answers = answers;
-			console.log('final payload:', payload);
+			//submit api
+			let res = await postSubmitQuiz(payload);
+			if (res && res.EC === 0) {
+				setDataModalResult({
+					countCorrect: res.DT.countCorrect,
+					countTotal: res.DT.countTotal,
+					quizData: res.DT.quizData,
+				});
+				setIsShowModalResult(true);
+			} else {
+				alert('Submit quiz failed');
+			}
 		}
 	};
 
@@ -153,6 +168,11 @@ function DetailQuiz() {
 				</div>
 			</div>
 			<div className='right-content'>count down</div>
+			<ModalResult
+				show={isShowModalResult}
+				setShow={setIsShowModalResult}
+				dataModalResult={dataModalResult}
+			/>
 		</div>
 	);
 }
