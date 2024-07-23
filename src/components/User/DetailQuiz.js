@@ -43,11 +43,9 @@ function DetailQuiz() {
 					return { questionId: key, answers, questionDescription, image };
 				})
 				.value();
-			console.log(data);
 			setDataQuiz(data);
 		}
 	};
-	console.log('check dataQuiz:', dataQuiz);
 
 	const handlePrev = () => {
 		if (currentQuestion - 1 < 0) return;
@@ -79,13 +77,48 @@ function DetailQuiz() {
 		}
 	};
 
-	const handleFinish = () => {};
+	const handleFinishQuiz = () => {
+		// 	{
+		// 		"quizId": 1,
+		// 		"answers": [
+		// 			 {
+		// 				  "questionId": 1,
+		// 				  "userAnswerId": [3]
+		// 			 },
+		// 			 {
+		// 				  "questionId": 2,
+		// 				  "userAnswerId": [6]
+		// 			 }
+		// 		]
+		//   }
+		console.log('dataQuiz:', dataQuiz);
+		let payload = {
+			quizId: +quizId,
+			answers: [],
+		};
+		let answers = [];
+		if (dataQuiz && dataQuiz.length > 0) {
+			dataQuiz.forEach((question) => {
+				let questionId = question.questionId;
+				let userAnswerId = [];
+
+				question.answers.forEach((answer) => {
+					if (answer.isSelected) {
+						userAnswerId.push(answer.id);
+					}
+				});
+				answers.push({ questionId: +questionId, userAnswerId });
+			});
+			payload.answers = answers;
+			console.log('final payload:', payload);
+		}
+	};
 
 	return (
 		<div className='detail-quiz-container'>
 			<div className='left-content'>
 				<div className='title'>
-					Quiz {quizId}:{location?.state?.quizTitle}
+					Quiz {quizId}: {location?.state?.quizTitle}
 				</div>
 				<hr />
 				<div className='q-body'>
@@ -113,7 +146,7 @@ function DetailQuiz() {
 						Next
 					</button>
 					<button
-						onClick={() => handleFinish()}
+						onClick={() => handleFinishQuiz()}
 						className='btn btn-warning'>
 						Finish
 					</button>
