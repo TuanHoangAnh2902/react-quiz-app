@@ -1,14 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import _ from 'lodash';
 
 import './detailQuiz.scss';
 import { getDataQuiz } from '~/services/apiService';
+import Question from './Question.js/Question';
 function DetailQuiz() {
 	const params = useParams();
 	const location = useLocation();
 
 	const quizId = params.id;
+
+	const [dataQuiz, setDataQuiz] = useState([]);
+	const [currentQuestion, setCurrentQuestion] = useState(0);
 
 	useEffect(() => {
 		fetchQuestions();
@@ -39,7 +43,17 @@ function DetailQuiz() {
 				})
 				.value();
 			console.log(data);
+			setDataQuiz(data);
 		}
+	};
+	console.log('check dataQuiz:', dataQuiz);
+	const handlePrev = () => {
+		if (currentQuestion - 1 < 0) return;
+
+		setCurrentQuestion(currentQuestion - 1);
+	};
+	const handleNext = () => {
+		if (dataQuiz && dataQuiz.length > currentQuestion + 1) setCurrentQuestion(currentQuestion + 1);
 	};
 
 	return (
@@ -56,19 +70,25 @@ function DetailQuiz() {
 					/>
 				</div>
 				<div className='q-content'>
-					<div className='question'>Question 1: how are you doing</div>
-					<div className='answer'>
-						<div className='a-child'>A. kltuhgfkjbn</div>
-						<div className='a-child'>B. kltuhgfkjbn</div>
-						<div className='a-child'>C. kltuhgfkjbn</div>
-					</div>
+					<Question
+						currentQuestion={currentQuestion}
+						data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[currentQuestion] : []}
+					/>
 				</div>
 				<div className='footer'>
-					<button className='btn btn-secondary'>Prev</button>
-					<button className='btn btn-primary'>Next</button>
+					<button
+						onClick={() => handlePrev()}
+						className='btn btn-secondary'>
+						Prev
+					</button>
+					<button
+						onClick={() => handleNext()}
+						className='btn btn-primary'>
+						Next
+					</button>
 				</div>
 			</div>
-			S<div className='right-content'>count down</div>
+			<div className='right-content'>count down</div>
 		</div>
 	);
 }
