@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import _ from 'lodash';
+import _, { forEach } from 'lodash';
 
 import './detailQuiz.scss';
 import { getDataQuiz } from '~/services/apiService';
@@ -37,6 +37,7 @@ function DetailQuiz() {
 							questionDescription = item.description;
 							image = item.image;
 						}
+						item.answers.isSelected = false;
 						answers.push(item.answers);
 					});
 					return { questionId: key, answers, questionDescription, image };
@@ -47,6 +48,7 @@ function DetailQuiz() {
 		}
 	};
 	console.log('check dataQuiz:', dataQuiz);
+
 	const handlePrev = () => {
 		if (currentQuestion - 1 < 0) return;
 
@@ -55,6 +57,29 @@ function DetailQuiz() {
 	const handleNext = () => {
 		if (dataQuiz && dataQuiz.length > currentQuestion + 1) setCurrentQuestion(currentQuestion + 1);
 	};
+	const handleCheckBox = (answerId, questionId) => {
+		let dataQuizClone = _.cloneDeep(dataQuiz);
+		let question = dataQuizClone.find((item) => +item.questionId === +questionId);
+
+		if (question && question.answers) {
+			let selected = question.answers.map((item) => {
+				if (+item.id === +answerId) {
+					item.isSelected = !item.isSelected;
+				}
+				return item;
+			});
+			question.answers = selected;
+			// console.log('question: ', question);
+			// console.log('selected: ', selected);
+		}
+		let index = dataQuizClone.findIndex((item) => +item.questionId === +questionId);
+		if (index > -1) {
+			dataQuizClone[index] = question;
+			setDataQuiz(dataQuizClone);
+		}
+	};
+
+	const handleFinish = () => {};
 
 	return (
 		<div className='detail-quiz-container'>
@@ -71,6 +96,7 @@ function DetailQuiz() {
 				</div>
 				<div className='q-content'>
 					<Question
+						handleCheckBox={handleCheckBox}
 						currentQuestion={currentQuestion}
 						data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[currentQuestion] : []}
 					/>
@@ -85,6 +111,11 @@ function DetailQuiz() {
 						onClick={() => handleNext()}
 						className='btn btn-primary'>
 						Next
+					</button>
+					<button
+						onClick={() => handleFinish()}
+						className='btn btn-warning'>
+						Finish
 					</button>
 				</div>
 			</div>
