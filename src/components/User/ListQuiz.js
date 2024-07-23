@@ -16,7 +16,6 @@ function ListQuiz() {
 			setArrQuiz(res.DT);
 		}
 	};
-
 	const nagivate = useNavigate();
 	return (
 		<div className='list-quiz-container container'>
