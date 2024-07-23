@@ -1,7 +1,9 @@
 import Select from 'react-select';
-
-import './ManageQuiz.scss';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
+
+import { postCreateNewQuiz } from '~/services/apiService';
+import './ManageQuiz.scss';
 
 const options = [
 	{ value: 'EASY', label: 'EASY' },
@@ -11,11 +13,31 @@ const options = [
 function ManageQuiz() {
 	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
-	const [type, setType] = useState('EASY');
+	const [type, setType] = useState('');
 	const [image, setImage] = useState('');
 
-	const handleChangeFile = (e) => {};
-
+	const handleChangeFile = (e) => {
+		if (e.target && e.target.files && e.target.files[0]) {
+			const file = e.target.files[0];
+			setImage(file);
+		}
+	};
+	const handleSubmit = async () => {
+		if (!name || !description || !type || !image) {
+			toast.error('Please fill all fields');
+			return;
+		}
+		let res = await postCreateNewQuiz(description, name, type?.value, image);
+		if (res && res.EC === 0) {
+			setName('');
+			setDescription('');
+			setType('');
+			setImage('');
+			toast.success(res.EM);
+		} else {
+			toast.error(res.EM);
+		}
+	};
 	return (
 		<div className='quiz-container'>
 			<div className='title'>Manage Quiz</div>
@@ -23,7 +45,7 @@ function ManageQuiz() {
 			<div className='add-new'>
 				<fieldset className='border rounded-3 p-3'>
 					<legend className='float-none w-auto px-3'>Add new Quiz</legend>
-					<div class='form-floating mb-3'>
+					<div className='form-floating mb-3'>
 						<input
 							value={name}
 							onChange={(e) => setName(e.target.value)}
@@ -48,7 +70,8 @@ function ManageQuiz() {
 							value={type}
 							placeholder='Quiz type...'
 							//   value={selectedOption}
-							//   onChange={this.handleChange}
+							defaultValue={type}
+							onChange={setType}
 							options={options}
 						/>
 					</div>
@@ -63,6 +86,13 @@ function ManageQuiz() {
 							className='form-control'
 							type='file'
 						/>
+					</div>
+					<div className='mt-3'>
+						<button
+							onClick={() => handleSubmit()}
+							className='btn btn-warning'>
+							Save
+						</button>
 					</div>
 				</fieldset>
 			</div>

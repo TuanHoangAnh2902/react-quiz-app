@@ -35,7 +35,6 @@ function DetailQuiz() {
 						image = null;
 
 					value.forEach((item, index) => {
-						// console.log('item', item);
 						if (index === 0) {
 							questionDescription = item.description;
 							image = item.image;
@@ -70,8 +69,6 @@ function DetailQuiz() {
 				return item;
 			});
 			question.answers = selected;
-			// console.log('question: ', question);
-			// console.log('selected: ', selected);
 		}
 		let index = dataQuizClone.findIndex((item) => +item.questionId === +questionId);
 		if (index > -1) {
@@ -94,7 +91,6 @@ function DetailQuiz() {
 		// 			 }
 		// 		]
 		//   }
-		console.log('dataQuiz:', dataQuiz);
 		let payload = {
 			quizId: +quizId,
 			answers: [],
