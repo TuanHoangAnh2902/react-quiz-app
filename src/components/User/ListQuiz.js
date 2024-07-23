@@ -36,7 +36,7 @@ function ListQuiz() {
 								<h5 className='card-title'>Quiz {index + 1}</h5>
 								<p className='card-text'>{quiz.description}</p>
 								<button
-									onClick={() => nagivate(`/quiz/${quiz.id}`)}
+									onClick={() => nagivate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
 									href='#'
 									className='btn btn-primary'>
 									Start Now
