@@ -6,11 +6,12 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import _ from 'lodash';
 
-import ValidateEmail from '~/components/ValidateEmail/ValidateEmail'; 
+import ValidateEmail from '~/components/ValidateEmail/ValidateEmail';
 import { putUpdateUser } from '~/services/apiService';
 
 function ModalUpdateUser(props) {
-	const { show, setShow, fetchListUserWidthPaginate, dataUpdate, resetupdateData, currentPage } = props;
+	const { show, setShow, fetchListUserWidthPaginate, dataUpdate, resetupdateData, currentPage } =
+		props;
 	const handleClose = () => {
 		setShow(false);
 		setEmail('');

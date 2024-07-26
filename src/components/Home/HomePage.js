@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 
 import videoHomePage from '~/assets/videos/video-homePage.mp4';
 import './HomePage.scss';
-import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage(props) {

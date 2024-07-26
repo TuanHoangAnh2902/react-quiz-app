@@ -1,10 +1,10 @@
-
 import { FaBars } from 'react-icons/fa';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
 
 import './Admin.scss';
 import Sidebar from './Sidebar';
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 function Admin(props) {
 	const [collapsed, setCollapsed] = useState(false);
@@ -22,10 +22,11 @@ function Admin(props) {
 					/>
 				</div>
 				<div className='admin-main'>
-					<Outlet />
+					<PerfectScrollbar>
+						<Outlet />
+					</PerfectScrollbar>
 				</div>
 			</div>
-			
 		</div>
 	);
 }

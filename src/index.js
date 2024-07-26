@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import Layout from './Layout';
 
 import 'nprogress/nprogress.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
