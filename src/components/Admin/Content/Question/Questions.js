@@ -6,7 +6,10 @@ import Select from 'react-select';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 import './Questions.scss';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
 function Questions() {
 	const options = [
@@ -15,6 +18,7 @@ function Questions() {
 		{ value: 'vanilla', label: 'Vanilla' },
 	];
 
+	const [open, setOpen] = useState(false);
 	const [selectedQuiz, setSelectedQuiz] = useState({});
 	const [questions, setQuestions] = useState([
 		{
@@ -31,6 +35,10 @@ function Questions() {
 			],
 		},
 	]);
+
+	const [dataImagePreview, setDataImagePreview] = useState({
+		url: '',
+	});
 
 	const handleAddRemoveQuestion = (type, id) => {
 		if (type === 'ADD') {
@@ -117,6 +125,16 @@ function Questions() {
 	const handleSubmitQuestionForQuiz = () => {
 		console.log(`questions`, questions);
 	};
+
+	const handlePreviewImage = (questionId) => {
+		const questionClone = _.cloneDeep(questions);
+		const index = questionClone.findIndex((item) => item.id === questionId);
+		if (index !== -1) {
+			setDataImagePreview({ url: URL.createObjectURL(questionClone[index].imageFile) });
+		}
+		setOpen(true);
+	};
+
 	return (
 		<div className='question-container'>
 			<div className='title'>Manage Question</div>
@@ -162,7 +180,17 @@ function Questions() {
 										id={question.id}
 										hidden
 									/>
-									<span>{question.imageName || '0 file is upload'}</span>
+									<span>
+										{question.imageName ? (
+											<span
+												className='preview-image'
+												onClick={() => handlePreviewImage(question.id)}>
+												{question.imageName}
+											</span>
+										) : (
+											'0 file is upload'
+										)}
+									</span>
 								</div>
 								<div className='btn-add'>
 									<span onClick={() => handleAddRemoveQuestion('ADD', '')}>
@@ -175,7 +203,7 @@ function Questions() {
 									)}
 								</div>
 							</div>
-							{question.answers.map((answer, idx) => (
+							{question.answers.map((answer, index) => (
 								<div
 									key={answer.id}
 									className='answers-content'>
@@ -195,7 +223,7 @@ function Questions() {
 											value={answer.description}
 											onChange={(e) => handleAnswerQuestion('INPUT', answer.id, question.id, e.target.value)}
 										/>
-										<label>answer {idx + 1}</label>
+										<label>answer {index + 1}</label>
 									</div>
 									<div className='btn-group'>
 										<span onClick={() => handleAddRemoveAnswer('ADD', question.id)}>
@@ -220,6 +248,14 @@ function Questions() {
 						</button>
 					</div>
 				)}
+				<>
+					<Lightbox
+						open={open}
+						close={() => setOpen(false)}
+						slides={[{ src: dataImagePreview.url ? dataImagePreview.url : '' }]}
+						plugins={[Zoom]}
+					/>
+				</>
 			</div>
 		</div>
 	);
