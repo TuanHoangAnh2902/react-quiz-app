@@ -1,23 +1,22 @@
 import { RiImageAddLine } from 'react-icons/ri';
 import { AiOutlineMinusSquare, AiOutlinePlusSquare, AiOutlineMinusCircle } from 'react-icons/ai';
 import { BiPlusCircle } from 'react-icons/bi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
-
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import './Questions.scss';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 
-function Questions() {
-	const options = [
-		{ value: 'chocolate', label: 'Chocolate' },
-		{ value: 'strawberry', label: 'Strawberry' },
-		{ value: 'vanilla', label: 'Vanilla' },
-	];
+import {
+	getAllQuizForAdmin,
+	postCreateNewQuestionForQuiz,
+	postCreateNewAnswerForQuestion,
+} from '~/services/apiService';
+import './Questions.scss';
 
+function Questions() {
 	const [open, setOpen] = useState(false);
 	const [selectedQuiz, setSelectedQuiz] = useState({});
 	const [questions, setQuestions] = useState([
@@ -35,10 +34,28 @@ function Questions() {
 			],
 		},
 	]);
-
 	const [dataImagePreview, setDataImagePreview] = useState({
 		url: '',
 	});
+	const [listQuiz, setListQuiz] = useState([]);
+
+	useEffect(() => {
+		fetchQuiz();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const fetchQuiz = async () => {
+		let res = await getAllQuizForAdmin();
+		if (res && res.EC === 0) {
+			let newQuiz = res.DT.map((item) => {
+				return {
+					value: item.id,
+					label: `${item.id} - ${item.description}`,
+				};
+			});
+			setListQuiz(newQuiz);
+		}
+	};
 
 	const handleAddRemoveQuestion = (type, id) => {
 		if (type === 'ADD') {
@@ -122,8 +139,25 @@ function Questions() {
 		}
 	};
 
-	const handleSubmitQuestionForQuiz = () => {
-		console.log(`questions`, questions);
+	const handleSubmitQuestionForQuiz = async () => {
+		//validate data
+
+		//submit questions
+		Promise.all(
+			questions.map(async (question) => {
+				const q = await postCreateNewQuestionForQuiz(
+					+selectedQuiz.value,
+					question.description,
+					question.imageFile,
+				);
+				//submit answers
+				await Promise.all(
+					question.answers.map(async (answer) => {
+						await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id);
+					}),
+				);
+			}),
+		);
 	};
 
 	const handlePreviewImage = (questionId) => {
@@ -135,6 +169,18 @@ function Questions() {
 		setOpen(true);
 	};
 
+	const colourStyles = {
+		control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+		option: (styles, { data, isDisabled }) => {
+			return {
+				...styles,
+				backgroundColor: isDisabled ? 'red' : '#CCC',
+				color: 'black',
+				cursor: isDisabled ? 'not-allowed' : 'default',
+			};
+		},
+		// ...
+	};
 	return (
 		<div className='question-container'>
 			<div className='title'>Manage Question</div>
@@ -147,9 +193,10 @@ function Questions() {
 						Select Quiz:
 					</label>
 					<Select
+						styles={colourStyles}
 						value={selectedQuiz}
 						onChange={setSelectedQuiz}
-						options={options}
+						options={listQuiz}
 					/>
 				</div>
 				<div className='mt-3 mb-2'>Add questions:</div>
