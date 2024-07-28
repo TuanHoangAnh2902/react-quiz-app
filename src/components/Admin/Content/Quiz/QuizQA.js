@@ -10,12 +10,7 @@ import 'yet-another-react-lightbox/styles.css';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import { toast } from 'react-toastify';
 
-import {
-	getAllQuizForAdmin,
-	postCreateNewQuestionForQuiz,
-	postCreateNewAnswerForQuestion,
-	getQuizWithQA,
-} from '~/services/apiService';
+import { getAllQuizForAdmin, getQuizWithQA, postUpsertQA } from '~/services/apiService';
 import './QuizQA.scss';
 import UrlToFile from '~/components/UrlToFile/UrlToFile';
 
@@ -50,13 +45,13 @@ function QuizQA() {
 
 	useEffect(() => {
 		if (selectedQuiz && selectedQuiz.value) {
-			fetchQuizWithQA(selectedQuiz.value);
+			fetchQuizWithQA();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedQuiz]);
 
-	const fetchQuizWithQA = async (quizId) => {
-		let res = await getQuizWithQA(quizId);
+	const fetchQuizWithQA = async () => {
+		let res = await getQuizWithQA(selectedQuiz.value);
 		if (res && res.EC === 0) {
 			//convert base64 to file object
 			// let newQA = [];
@@ -209,21 +204,29 @@ function QuizQA() {
 				return;
 			}
 		}
-
-		for (const question of questions) {
-			const q = await postCreateNewQuestionForQuiz(
-				+selectedQuiz.value,
-				question.description,
-				question.imageFile,
-			);
-			//submit answer
-			for (const answer of question.answers) {
-				await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id);
+		let questionClone = _.cloneDeep(questions);
+		for (let i = 0; i < questionClone.length; i++) {
+			if (questionClone[i].imageFile) {
+				questionClone[i].imageFile = await toBase64(questionClone[i].imageFile);
 			}
 		}
-		toast.success('Create question success');
-		setQuestions(initQuestions);
+		let res = await postUpsertQA({ quizId: selectedQuiz.value, questions: questionClone });
+		console.log(res);
+		if (res && res.EC === 0) {
+			toast.success(res.EM);
+			setQuestions(initQuestions);
+			fetchQuizWithQA();
+		} else {
+			toast.error('Update question fail');
+		}
 	};
+	const toBase64 = (file) =>
+		new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve(reader.result);
+			reader.onerror = reject;
+		});
 
 	const handlePreviewImage = (questionId) => {
 		const questionClone = _.cloneDeep(questions);
