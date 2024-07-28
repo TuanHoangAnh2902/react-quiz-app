@@ -1,0 +1,95 @@
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.question-container {
+	padding: 15px;
+
+	.title {
+		margin-bottom: 15px;
+		font-size: 20px;
+		font-weight: 600;
+	}
+	.add-new-question {
+		.questions-content {
+			display: flex;
+			align-items: end;
+			.description {
+				width: 50%;
+				gap: 25px;
+			}
+			.group-upload {
+				padding: 10px;
+				.label-up {
+					margin-right: 5px;
+					cursor: pointer;
+					color: #9068ff;
+					font-size: 25px;
+					&:hover {
+						color: #4400ff;
+					}
+				}
+				.preview-image {
+					cursor: pointer;
+					&:hover {
+						opacity: 0.7;
+					}
+				}
+			}
+			.btn-add {
+				padding: 15px;
+				.icon-add {
+					font-size: 25px;
+					color: #2596ff;
+					cursor: pointer;
+					&:hover {
+						color: #0989ff;
+					}
+				}
+				.icon-remove {
+					cursor: pointer;
+					margin-left: 10px;
+					font-size: 25px;
+					color: #e8771c;
+					&:hover {
+						color: #ff7608;
+					}
+				}
+			}
+		}
+		.answers-content {
+			padding-left: 20px;
+			padding-top: 10px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.iscorrect {
+				font-size: 20px;
+			}
+			.answer-name {
+				width: 46.8%;
+			}
+			.btn-group {
+				.icon-add {
+					font-size: 25px;
+					color: #2596ff;
+					cursor: pointer;
+
+					&:hover {
+						color: #2596ff;
+					}
+				}
+				.icon-remove {
+					cursor: pointer;
+					margin-left: 10px;
+					font-size: 25px;
+					color: #e8771c;
+					&:hover {
+						color: #ff7608;
+					}
+				}
+			}
+		}
+	}
+}
