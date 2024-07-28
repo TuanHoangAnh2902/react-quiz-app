@@ -14,8 +14,10 @@ import {
 	getAllQuizForAdmin,
 	postCreateNewQuestionForQuiz,
 	postCreateNewAnswerForQuestion,
+	getQuizWithQA,
 } from '~/services/apiService';
 import './QuizQA.scss';
+import UrlToFile from '~/components/UrlToFile/UrlToFile';
 
 function QuizQA() {
 	const initQuestions = [
@@ -45,6 +47,34 @@ function QuizQA() {
 		fetchQuiz();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (selectedQuiz && selectedQuiz.value) {
+			fetchQuizWithQA(selectedQuiz.value);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedQuiz]);
+
+	const fetchQuizWithQA = async (quizId) => {
+		let res = await getQuizWithQA(quizId);
+		if (res && res.EC === 0) {
+			//convert base64 to file object
+			// let newQA = [];
+			for (let i = 0; i < res.DT.qa.length; i++) {
+				let q = res.DT.qa[i];
+				if (q.imageFile) {
+					q.imageName = `Question-${q.id}.png`;
+					q.imageFile = await UrlToFile(
+						`data:image/png;base64,${q.imageFile}`,
+						`Question-${q.id}.png`,
+						`image/png`,
+					);
+				}
+				// newQA.push(q);
+			}
+			setQuestions(res.DT.qa);
+		}
+	};
 
 	const fetchQuiz = async () => {
 		let res = await getAllQuizForAdmin();
