@@ -1,7 +1,12 @@
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Lightbox from 'yet-another-react-lightbox';
 import _ from 'lodash';
+import { useState } from 'react';
 
 function Question(props) {
 	const { data, currentQuestion, handleCheckBox } = props;
+	const [open, setOpen] = useState(false);
+
 	if (_.isEmpty(data)) {
 		return <></>;
 	}
@@ -14,8 +19,15 @@ function Question(props) {
 			{data.image ? (
 				<div className='q-image'>
 					<img
+						onClick={() => setOpen(true)}
 						src={`data:image/jpeg;base64,${data.image}`}
 						alt=''
+					/>
+					<Lightbox
+						open={open}
+						close={() => setOpen(false)}
+						slides={[{ src: `data:image/jpeg;base64,${data.image}` }]}
+						plugins={[Zoom]}
 					/>
 				</div>
 			) : (
