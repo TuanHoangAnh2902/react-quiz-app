@@ -165,7 +165,11 @@ function DetailQuiz() {
 				</div>
 			</div>
 			<div className='right-content'>
-				<RightContent dataQuiz={dataQuiz} />
+				<RightContent
+					handleFinishQuiz={handleFinishQuiz}
+					dataQuiz={dataQuiz}
+					setCurrentQuestion={setCurrentQuestion}
+				/>
 			</div>
 			<ModalResult
 				show={isShowModalResult}

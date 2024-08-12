@@ -72,8 +72,14 @@
 				border-radius: 50%;
 				cursor: pointer;
 				&:hover {
-					color: red;
 					border-color: red;
+				}
+				&.selected {
+					background-color: rgb(167, 167, 167);
+				}
+
+				&.clicked {
+					color: red;
 				}
 			}
 		}
